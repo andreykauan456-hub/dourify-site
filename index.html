@@ -1,0 +1,2060 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dourify Studio | Sites, Identidade Visual, Bots e Automações</title>
+  <meta name="description" content="Dourify Studio, por Andrey Dourado: criação digital premium com sites, identidade visual, cardápios online, bots e automações." />
+
+  <style>
+    :root {
+      --black: #060711;
+      --black-2: #101326;
+      --black-3: #171a31;
+      --white: #f8f7ff;
+      --muted: #b9bdd8;
+      --gold: #ffd166;
+      --gold-2: #ffb703;
+      --cyan: #00e7ff;
+      --purple: #7c3cff;
+      --pink: #ff4da6;
+      --green: #00f5a0;
+      --card: rgba(255, 255, 255, 0.085);
+      --card-2: rgba(255, 255, 255, 0.14);
+      --border: 1px solid rgba(255, 255, 255, 0.15);
+      --shadow: 0 30px 100px rgba(0, 0, 0, 0.55);
+      --radius: 30px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at 10% 8%, rgba(255, 209, 102, 0.22), transparent 30%),
+        radial-gradient(circle at 85% 15%, rgba(0, 231, 255, 0.2), transparent 35%),
+        radial-gradient(circle at 50% 95%, rgba(124, 60, 255, 0.25), transparent 35%),
+        var(--black);
+      color: var(--white);
+      overflow-x: hidden;
+    }
+
+    body.light {
+      --black: #f8f5ec;
+      --black-2: #ffffff;
+      --black-3: #f1eadb;
+      --white: #171523;
+      --muted: #5f6278;
+      --card: rgba(0, 0, 0, 0.055);
+      --card-2: rgba(0, 0, 0, 0.09);
+      --border: 1px solid rgba(0, 0, 0, 0.1);
+      --shadow: 0 30px 100px rgba(65, 52, 22, 0.17);
+      background:
+        radial-gradient(circle at 10% 8%, rgba(255, 183, 3, 0.2), transparent 30%),
+        radial-gradient(circle at 85% 15%, rgba(0, 231, 255, 0.13), transparent 35%),
+        #f8f5ec;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button, input, textarea, select {
+      font: inherit;
+    }
+
+    .container {
+      width: min(1200px, calc(100% - 36px));
+      margin: auto;
+    }
+
+    .gradient-text {
+      background: linear-gradient(90deg, var(--gold), var(--cyan), var(--purple), var(--pink));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .gold-text {
+      color: var(--gold);
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 10px 16px;
+      border-radius: 999px;
+      background: var(--card);
+      border: var(--border);
+      color: var(--muted);
+      backdrop-filter: blur(18px);
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 15px 24px;
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+      font-weight: 950;
+      color: #111;
+      background: linear-gradient(135deg, var(--gold), var(--gold-2));
+      box-shadow: 0 18px 42px rgba(255, 183, 3, 0.28);
+      transition: transform .25s ease, box-shadow .25s ease, filter .25s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      transform: translateX(-120%);
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+      transition: transform .6s ease;
+    }
+
+    .btn:hover::before {
+      transform: translateX(120%);
+    }
+
+    .btn:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 25px 60px rgba(255, 183, 3, 0.42);
+      filter: brightness(1.08);
+    }
+
+    .btn.secondary {
+      background: var(--card);
+      color: var(--white);
+      border: var(--border);
+      box-shadow: none;
+      backdrop-filter: blur(18px);
+    }
+
+    .btn.secondary:hover {
+      background: var(--card-2);
+      box-shadow: 0 20px 45px rgba(0, 231, 255, 0.12);
+    }
+
+    .btn.whatsapp {
+      background: linear-gradient(135deg, #00c853, var(--green));
+      color: #05110b;
+      box-shadow: 0 18px 42px rgba(0, 245, 160, 0.25);
+    }
+
+    .noise {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+      opacity: .08;
+      background-image: linear-gradient(transparent 95%, rgba(255,255,255,.4) 96%), linear-gradient(90deg, transparent 95%, rgba(255,255,255,.4) 96%);
+      background-size: 42px 42px;
+      mask-image: radial-gradient(circle at center, black, transparent 75%);
+    }
+
+    .cursor-glow {
+      position: fixed;
+      width: 360px;
+      height: 360px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255, 209, 102, .13), transparent 65%);
+      pointer-events: none;
+      z-index: 0;
+      transform: translate(-50%, -50%);
+    }
+
+    .orb-bg {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(30px);
+      opacity: .35;
+      pointer-events: none;
+      z-index: 0;
+      animation: drift 9s ease-in-out infinite alternate;
+    }
+
+    .orb-a {
+      width: 250px;
+      height: 250px;
+      background: var(--gold);
+      top: 18%;
+      left: -80px;
+    }
+
+    .orb-b {
+      width: 280px;
+      height: 280px;
+      background: var(--cyan);
+      top: 10%;
+      right: -100px;
+      animation-delay: 1s;
+    }
+
+    .orb-c {
+      width: 300px;
+      height: 300px;
+      background: var(--purple);
+      bottom: 4%;
+      left: 42%;
+      animation-delay: 2s;
+    }
+
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      background: rgba(6, 7, 17, 0.74);
+      backdrop-filter: blur(24px);
+      border-bottom: var(--border);
+    }
+
+    body.light header {
+      background: rgba(248, 245, 236, 0.82);
+    }
+
+    .navbar {
+      min-height: 86px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 22px;
+      position: relative;
+      z-index: 3;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 23px;
+      font-weight: 950;
+      letter-spacing: -0.7px;
+    }
+
+    .logo-symbol {
+      width: 52px;
+      height: 52px;
+      border-radius: 18px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(145deg, rgba(255,255,255,.18), rgba(255,255,255,.02));
+      border: var(--border);
+      box-shadow: 0 18px 45px rgba(255, 209, 102, .23);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .logo-symbol svg {
+      width: 35px;
+      height: 35px;
+      filter: drop-shadow(0 0 12px rgba(255, 209, 102, .5));
+    }
+
+    .menu {
+      list-style: none;
+      display: flex;
+      align-items: center;
+      gap: 22px;
+    }
+
+    .menu a {
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 850;
+      transition: color .2s ease;
+    }
+
+    .menu a:hover {
+      color: var(--gold);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .icon-btn {
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      border: var(--border);
+      background: var(--card);
+      color: var(--white);
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      transition: transform .25s ease, background .25s ease;
+    }
+
+    .icon-btn:hover {
+      transform: translateY(-3px) rotate(5deg);
+      background: var(--card-2);
+    }
+
+    .mobile-btn {
+      display: none;
+    }
+
+    main, footer {
+      position: relative;
+      z-index: 2;
+    }
+
+    section {
+      position: relative;
+      padding: 110px 0;
+    }
+
+    .hero {
+      min-height: 100vh;
+      padding: 160px 0 90px;
+      display: grid;
+      align-items: center;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap: 48px;
+      align-items: center;
+    }
+
+    .hero h1 {
+      margin-top: 24px;
+      font-size: clamp(44px, 6.3vw, 92px);
+      line-height: .92;
+      letter-spacing: -5px;
+    }
+
+    .hero p {
+      margin: 28px 0 36px;
+      color: var(--muted);
+      font-size: 19px;
+      line-height: 1.8;
+      max-width: 730px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      align-items: center;
+    }
+
+    .hero-proof {
+      margin-top: 42px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .proof-card {
+      padding: 22px;
+      border-radius: 24px;
+      background: var(--card);
+      border: var(--border);
+      backdrop-filter: blur(20px);
+      box-shadow: 0 18px 60px rgba(0, 0, 0, .22);
+    }
+
+    .proof-card strong {
+      display: block;
+      color: var(--gold);
+      font-size: 34px;
+      margin-bottom: 6px;
+    }
+
+    .proof-card span {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .hero-visual {
+      position: relative;
+      min-height: 650px;
+      display: grid;
+      place-items: center;
+      perspective: 1000px;
+    }
+
+    .premium-logo-stage {
+      width: min(470px, 82vw);
+      aspect-ratio: 1;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background:
+        radial-gradient(circle at 35% 25%, rgba(255,255,255,.92), transparent 9%),
+        radial-gradient(circle at 36% 34%, rgba(255,209,102,.95), transparent 30%),
+        radial-gradient(circle at 68% 68%, rgba(124,60,255,.85), transparent 40%),
+        radial-gradient(circle at 25% 78%, rgba(0,231,255,.65), transparent 34%),
+        #151520;
+      box-shadow: 0 0 120px rgba(255, 209, 102, .28), inset 0 0 85px rgba(255,255,255,.13);
+      animation: logoFloat 5s ease-in-out infinite;
+      position: relative;
+    }
+
+    .premium-logo-stage::before {
+      content: '';
+      position: absolute;
+      inset: -20px;
+      border-radius: inherit;
+      border: 1px solid rgba(255, 209, 102, .22);
+      animation: spin 12s linear infinite;
+      border-left-color: transparent;
+      border-bottom-color: transparent;
+    }
+
+    .premium-logo-stage::after {
+      content: '';
+      position: absolute;
+      inset: 42px;
+      border-radius: inherit;
+      border: 1px solid rgba(0, 231, 255, .22);
+      animation: spin 9s linear infinite reverse;
+      border-right-color: transparent;
+    }
+
+    .big-logo {
+      width: 190px;
+      height: 190px;
+      z-index: 2;
+      filter: drop-shadow(0 0 35px rgba(255, 209, 102, .65));
+      animation: pulseLogo 3s ease-in-out infinite;
+    }
+
+    .floating-card {
+      position: absolute;
+      width: 250px;
+      padding: 18px;
+      border-radius: 24px;
+      background: rgba(255,255,255,.12);
+      border: var(--border);
+      backdrop-filter: blur(22px);
+      box-shadow: var(--shadow);
+      animation: float 4s ease-in-out infinite;
+    }
+
+    body.light .floating-card {
+      background: rgba(255,255,255,.72);
+    }
+
+    .floating-card h3 {
+      font-size: 16px;
+      margin-bottom: 8px;
+    }
+
+    .floating-card p {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.52;
+    }
+
+    .float-one { top: 20px; left: 0; }
+    .float-two { right: 0; bottom: 95px; animation-delay: .8s; }
+    .float-three { left: 38px; bottom: 12px; animation-delay: 1.25s; }
+
+    .section-head {
+      max-width: 900px;
+      margin: 0 auto 58px;
+      text-align: center;
+    }
+
+    .section-head h2 {
+      margin: 18px 0;
+      font-size: clamp(34px, 4.3vw, 62px);
+      line-height: 1;
+      letter-spacing: -2.4px;
+    }
+
+    .section-head p {
+      color: var(--muted);
+      font-size: 18px;
+      line-height: 1.78;
+    }
+
+    .brand-grid {
+      display: grid;
+      grid-template-columns: .95fr 1.05fr;
+      gap: 26px;
+      align-items: stretch;
+    }
+
+    .glass-card,
+    .service-card,
+    .portfolio-card,
+    .step-card,
+    .price-card,
+    .testimonial-card,
+    .faq-item,
+    .contact-card,
+    .asset-card {
+      background: var(--card);
+      border: var(--border);
+      border-radius: var(--radius);
+      backdrop-filter: blur(20px);
+      box-shadow: var(--shadow);
+    }
+
+    .glass-card {
+      padding: 34px;
+    }
+
+    .glass-card h3 {
+      font-size: 32px;
+      margin-bottom: 16px;
+    }
+
+    .glass-card p {
+      color: var(--muted);
+      line-height: 1.78;
+      margin-bottom: 18px;
+    }
+
+    .brand-board {
+      display: grid;
+      gap: 16px;
+    }
+
+    .brand-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .asset-card {
+      padding: 24px;
+      transition: transform .25s ease, background .25s ease;
+    }
+
+    .asset-card:hover {
+      transform: translateY(-6px);
+      background: var(--card-2);
+    }
+
+    .asset-card span {
+      display: block;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 900;
+      margin-bottom: 8px;
+      letter-spacing: .6px;
+      text-transform: uppercase;
+    }
+
+    .asset-card strong {
+      display: block;
+      font-size: 24px;
+      line-height: 1.16;
+    }
+
+    .palette {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .color-dot {
+      height: 72px;
+      border-radius: 18px;
+      border: var(--border);
+      box-shadow: 0 18px 35px rgba(0,0,0,.2);
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+    }
+
+    .service-card {
+      padding: 30px;
+      position: relative;
+      overflow: hidden;
+      transition: transform .28s ease, background .28s ease, border-color .28s ease;
+    }
+
+    .service-card::before {
+      content: '';
+      position: absolute;
+      top: -100px;
+      right: -100px;
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,209,102,.22), transparent 70%);
+      transition: transform .35s ease;
+    }
+
+    .service-card:hover {
+      transform: translateY(-12px) scale(1.01);
+      background: var(--card-2);
+      border-color: rgba(255, 209, 102, .45);
+    }
+
+    .service-card:hover::before {
+      transform: scale(1.4);
+    }
+
+    .service-icon {
+      width: 66px;
+      height: 66px;
+      border-radius: 22px;
+      display: grid;
+      place-items: center;
+      font-size: 30px;
+      background: linear-gradient(135deg, var(--gold), var(--purple));
+      margin-bottom: 22px;
+      box-shadow: 0 18px 45px rgba(255, 209, 102, .18);
+    }
+
+    .service-card h3 {
+      font-size: 24px;
+      margin-bottom: 12px;
+    }
+
+    .service-card p {
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 20px;
+    }
+
+    .check-list {
+      list-style: none;
+      display: grid;
+      gap: 9px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .check-list li::before {
+      content: '✓ ';
+      color: var(--green);
+      font-weight: 950;
+    }
+
+    .commercial-banner {
+      border-radius: 38px;
+      border: var(--border);
+      background:
+        linear-gradient(135deg, rgba(255, 209, 102, .18), rgba(124,60,255,.18), rgba(0,231,255,.1)),
+        var(--card);
+      box-shadow: var(--shadow);
+      padding: 48px;
+      display: grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap: 32px;
+      align-items: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .commercial-banner::after {
+      content: '';
+      position: absolute;
+      width: 420px;
+      height: 420px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255, 209, 102, .16), transparent 65%);
+      right: -150px;
+      top: -120px;
+    }
+
+    .commercial-banner h2 {
+      font-size: clamp(32px, 4vw, 58px);
+      line-height: 1;
+      letter-spacing: -2px;
+      margin: 18px 0;
+    }
+
+    .commercial-banner p {
+      color: var(--muted);
+      font-size: 18px;
+      line-height: 1.76;
+      margin-bottom: 24px;
+    }
+
+    .banner-list {
+      display: grid;
+      gap: 14px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .banner-item {
+      padding: 18px;
+      border-radius: 20px;
+      border: var(--border);
+      background: rgba(255,255,255,.08);
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .portfolio-filter {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 30px;
+    }
+
+    .filter-btn {
+      padding: 12px 18px;
+      border-radius: 999px;
+      border: var(--border);
+      background: var(--card);
+      color: var(--muted);
+      cursor: pointer;
+      font-weight: 900;
+      transition: background .25s ease, color .25s ease, transform .25s ease;
+    }
+
+    .filter-btn.active,
+    .filter-btn:hover {
+      color: #111;
+      background: linear-gradient(135deg, var(--gold), var(--gold-2));
+      transform: translateY(-2px);
+    }
+
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+    }
+
+    .portfolio-card {
+      overflow: hidden;
+      transition: transform .28s ease, border-color .28s ease;
+    }
+
+    .portfolio-card:hover {
+      transform: translateY(-12px);
+      border-color: rgba(0, 231, 255, .38);
+    }
+
+    .portfolio-img {
+      height: 220px;
+      background-size: cover;
+      background-position: center;
+      position: relative;
+    }
+
+    .portfolio-img::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,.78), transparent 70%);
+    }
+
+    .portfolio-tag {
+      position: absolute;
+      z-index: 1;
+      left: 16px;
+      bottom: 16px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.16);
+      backdrop-filter: blur(12px);
+      font-size: 12px;
+      font-weight: 950;
+    }
+
+    .portfolio-body {
+      padding: 24px;
+    }
+
+    .portfolio-body h3 {
+      font-size: 23px;
+      margin-bottom: 10px;
+    }
+
+    .portfolio-body p {
+      color: var(--muted);
+      line-height: 1.66;
+      margin-bottom: 18px;
+    }
+
+    .tags {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .tags span {
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.08);
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 850;
+    }
+
+    .process-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 18px;
+    }
+
+    .step-card {
+      padding: 25px;
+      transition: transform .25s ease, background .25s ease;
+    }
+
+    .step-card:hover {
+      transform: translateY(-8px);
+      background: var(--card-2);
+    }
+
+    .step-number {
+      width: 54px;
+      height: 54px;
+      border-radius: 18px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--gold), var(--pink));
+      color: #111;
+      font-weight: 950;
+      margin-bottom: 18px;
+    }
+
+    .step-card h3 {
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+
+    .step-card p {
+      color: var(--muted);
+      line-height: 1.65;
+      font-size: 14px;
+    }
+
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      align-items: stretch;
+    }
+
+    .price-card {
+      padding: 32px;
+      position: relative;
+      transition: transform .25s ease, border-color .25s ease;
+    }
+
+    .price-card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(255, 209, 102, .38);
+    }
+
+    .price-card.featured {
+      background: linear-gradient(135deg, rgba(255,209,102,.18), rgba(124,60,255,.18));
+      border-color: rgba(255, 209, 102, .48);
+      transform: scale(1.04);
+    }
+
+    .badge {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: var(--gold);
+      color: #111;
+      font-size: 12px;
+      font-weight: 950;
+    }
+
+    .price-card h3 {
+      font-size: 27px;
+      margin-bottom: 10px;
+    }
+
+    .price-card > p {
+      color: var(--muted);
+      line-height: 1.66;
+    }
+
+    .price {
+      font-size: 45px;
+      font-weight: 950;
+      margin: 24px 0;
+    }
+
+    .price small {
+      color: var(--muted);
+      font-size: 15px;
+      font-weight: 750;
+    }
+
+    .price-card ul {
+      list-style: none;
+      display: grid;
+      gap: 12px;
+      margin: 24px 0 28px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .price-card li::before {
+      content: '✓ ';
+      color: var(--green);
+      font-weight: 950;
+    }
+
+    .digital-assets {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+    }
+
+    .asset-preview {
+      min-height: 260px;
+      padding: 26px;
+      border-radius: var(--radius);
+      border: var(--border);
+      background:
+        linear-gradient(135deg, rgba(255,209,102,.16), rgba(0,231,255,.08)),
+        var(--card);
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .asset-preview::before {
+      content: '';
+      position: absolute;
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,209,102,.22), transparent 70%);
+      right: -70px;
+      top: -70px;
+    }
+
+    .asset-preview h3 {
+      font-size: 25px;
+      margin-bottom: 12px;
+      position: relative;
+    }
+
+    .asset-preview p {
+      color: var(--muted);
+      line-height: 1.7;
+      position: relative;
+    }
+
+    .business-card-preview {
+      margin-top: 22px;
+      border-radius: 22px;
+      background: #05050b;
+      border: 1px solid rgba(255,209,102,.4);
+      padding: 20px;
+      color: white;
+      position: relative;
+      box-shadow: 0 22px 50px rgba(0,0,0,.35);
+    }
+
+    .business-card-preview strong {
+      color: var(--gold);
+      display: block;
+      font-size: 22px;
+      margin-bottom: 6px;
+    }
+
+    .business-card-preview span {
+      display: block;
+      color: #c9c9d6;
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    .presentation-slide {
+      margin-top: 22px;
+      border-radius: 22px;
+      padding: 22px;
+      background: linear-gradient(135deg, #080915, #191b35);
+      border: 1px solid rgba(0,231,255,.3);
+      color: white;
+    }
+
+    .presentation-slide h4 {
+      color: var(--cyan);
+      margin-bottom: 12px;
+      font-size: 22px;
+    }
+
+    .insta-banner {
+      margin-top: 22px;
+      aspect-ratio: 1.7;
+      border-radius: 22px;
+      padding: 22px;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(255,209,102,.35), transparent 30%),
+        radial-gradient(circle at 80% 30%, rgba(0,231,255,.22), transparent 34%),
+        #060711;
+      border: 1px solid rgba(255,255,255,.18);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      color: white;
+    }
+
+    .insta-banner h4 {
+      color: var(--gold);
+      font-size: 26px;
+      margin-bottom: 8px;
+    }
+
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+    }
+
+    .testimonial-card {
+      padding: 28px;
+      transition: transform .25s ease;
+    }
+
+    .testimonial-card:hover {
+      transform: translateY(-8px);
+    }
+
+    .stars {
+      color: var(--gold);
+      letter-spacing: 2px;
+      margin-bottom: 16px;
+    }
+
+    .testimonial-card p {
+      color: var(--muted);
+      line-height: 1.76;
+      margin-bottom: 18px;
+    }
+
+    .client {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .client-avatar {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--gold), var(--purple));
+      color: #111;
+    }
+
+    .client strong {
+      display: block;
+    }
+
+    .client span {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .faq-list {
+      max-width: 930px;
+      margin: auto;
+      display: grid;
+      gap: 15px;
+    }
+
+    .faq-item {
+      overflow: hidden;
+    }
+
+    .faq-question {
+      width: 100%;
+      border: none;
+      background: transparent;
+      color: var(--white);
+      padding: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 18px;
+      text-align: left;
+      font-size: 18px;
+      font-weight: 950;
+      cursor: pointer;
+    }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height .35s ease;
+    }
+
+    .faq-answer p {
+      padding: 0 24px 24px;
+      color: var(--muted);
+      line-height: 1.72;
+    }
+
+    .faq-item.active .faq-answer {
+      max-height: 260px;
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: .9fr 1.1fr;
+      gap: 24px;
+    }
+
+    .contact-card {
+      padding: 34px;
+    }
+
+    .contact-card h3 {
+      font-size: 31px;
+      margin-bottom: 14px;
+    }
+
+    .contact-card p {
+      color: var(--muted);
+      line-height: 1.76;
+      margin-bottom: 24px;
+    }
+
+    .contact-list {
+      margin-top: 24px;
+      display: grid;
+      gap: 14px;
+    }
+
+    .contact-list a,
+    .contact-list div {
+      display: block;
+      padding: 17px;
+      border-radius: 18px;
+      border: var(--border);
+      background: rgba(255,255,255,.08);
+      color: var(--muted);
+      transition: background .25s ease, transform .25s ease, color .25s ease;
+    }
+
+    .contact-list a:hover {
+      background: var(--card-2);
+      transform: translateY(-2px);
+      color: var(--white);
+    }
+
+    form {
+      display: grid;
+      gap: 16px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 16px 18px;
+      border-radius: 18px;
+      border: var(--border);
+      background: rgba(255,255,255,.08);
+      color: var(--white);
+      outline: none;
+    }
+
+    option {
+      color: #111;
+    }
+
+    textarea {
+      min-height: 155px;
+      resize: vertical;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 4px rgba(255, 209, 102, .13);
+    }
+
+    .success-message {
+      display: none;
+      padding: 15px;
+      border-radius: 16px;
+      background: rgba(0,245,160,.14);
+      border: 1px solid rgba(0,245,160,.35);
+      color: var(--green);
+      font-weight: 950;
+    }
+
+    .whatsapp-float {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      z-index: 90;
+      width: 62px;
+      height: 62px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, #00c853, var(--green));
+      color: #05110b;
+      font-size: 29px;
+      box-shadow: 0 18px 45px rgba(0,245,160,.35);
+      transition: transform .25s ease;
+    }
+
+    .whatsapp-float:hover {
+      transform: translateY(-5px) scale(1.05);
+    }
+
+    footer {
+      padding: 54px 0 32px;
+      border-top: var(--border);
+      background: rgba(0,0,0,.18);
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.2fr repeat(3, 1fr);
+      gap: 28px;
+    }
+
+    footer h3,
+    footer h4 {
+      margin-bottom: 14px;
+    }
+
+    footer p,
+    footer a {
+      color: var(--muted);
+      line-height: 1.82;
+      font-size: 14px;
+    }
+
+    footer ul {
+      list-style: none;
+      display: grid;
+      gap: 8px;
+    }
+
+    .footer-bottom {
+      margin-top: 30px;
+      padding-top: 24px;
+      border-top: var(--border);
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      flex-wrap: wrap;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(42px) scale(.98);
+      filter: blur(8px);
+      transition: opacity .9s ease, transform .9s ease, filter .9s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      filter: blur(0);
+    }
+
+    @keyframes logoFloat {
+      0%, 100% { transform: translateY(0) rotateX(0deg) rotateY(0deg); }
+      50% { transform: translateY(-18px) rotateX(4deg) rotateY(-6deg); }
+    }
+
+    @keyframes pulseLogo {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-16px); }
+    }
+
+    @keyframes drift {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(40px, -30px) scale(1.12); }
+    }
+
+    @media (max-width: 1080px) {
+      .mobile-btn { display: grid; }
+
+      .menu {
+        position: fixed;
+        top: 86px;
+        left: 18px;
+        right: 18px;
+        display: none;
+        flex-direction: column;
+        align-items: stretch;
+        padding: 22px;
+        border-radius: 24px;
+        border: var(--border);
+        background: rgba(6, 7, 17, .96);
+        backdrop-filter: blur(22px);
+      }
+
+      body.light .menu {
+        background: rgba(248,245,236,.96);
+      }
+
+      .menu.active { display: flex; }
+
+      .hero-grid,
+      .brand-grid,
+      .commercial-banner,
+      .contact-grid,
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .services-grid,
+      .portfolio-grid,
+      .pricing-grid,
+      .testimonials-grid,
+      .digital-assets {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .process-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .price-card.featured { transform: none; }
+    }
+
+    @media (max-width: 720px) {
+      .nav-actions .btn { display: none; }
+      .logo { font-size: 19px; }
+      .hero { padding-top: 132px; }
+      .hero h1 { letter-spacing: -2.4px; }
+
+      .hero-proof,
+      .services-grid,
+      .portfolio-grid,
+      .pricing-grid,
+      .testimonials-grid,
+      .digital-assets,
+      .process-grid,
+      .brand-row,
+      .form-row,
+      .palette {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-visual { min-height: 520px; }
+      .premium-logo-stage { width: min(360px, 82vw); }
+      .big-logo { width: 145px; height: 145px; }
+      .floating-card { width: 205px; }
+      .float-one { top: 16px; left: 0; }
+      .float-two { right: 0; bottom: 62px; }
+      .float-three { display: none; }
+      .commercial-banner, .glass-card, .contact-card { padding: 26px; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="noise"></div>
+  <div class="cursor-glow" id="cursorGlow"></div>
+  <div class="orb-bg orb-a"></div>
+  <div class="orb-bg orb-b"></div>
+  <div class="orb-bg orb-c"></div>
+
+  <header>
+    <div class="container navbar">
+      <a href="#inicio" class="logo" aria-label="Início Dourify Studio">
+        <span class="logo-symbol">
+          <svg viewBox="0 0 100 100" aria-hidden="true">
+            <defs>
+              <linearGradient id="goldGradient" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#FFD166" />
+                <stop offset="48%" stop-color="#FFB703" />
+                <stop offset="100%" stop-color="#00E7FF" />
+              </linearGradient>
+            </defs>
+            <path d="M18 12H50C72 12 88 28 88 50C88 72 72 88 50 88H18V12Z" fill="none" stroke="url(#goldGradient)" stroke-width="10" stroke-linejoin="round" />
+            <path d="M38 30H51C62 30 70 38 70 50C70 62 62 70 51 70H38V30Z" fill="url(#goldGradient)" />
+            <path d="M19 80L80 19" stroke="#F8F7FF" stroke-width="7" stroke-linecap="round" opacity=".9" />
+          </svg>
+        </span>
+        <span>Dourify <span class="gradient-text">Studio</span></span>
+      </a>
+
+      <nav>
+        <ul class="menu" id="menu">
+          <li><a href="#inicio">Início</a></li>
+          <li><a href="#marca">Marca</a></li>
+          <li><a href="#servicos">Serviços</a></li>
+          <li><a href="#portfolio">Portfólio</a></li>
+          <li><a href="#processo">Processo</a></li>
+          <li><a href="#planos">Planos</a></li>
+          <li><a href="#contato">Contato</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <button class="icon-btn" id="themeBtn" title="Alternar tema">🌙</button>
+        <a class="btn whatsapp" href="https://wa.me/5594992467916?text=Ol%C3%A1%2C%20Andrey%21%20Quero%20um%20or%C3%A7amento%20com%20a%20Dourify%20Studio." target="_blank">WhatsApp</a>
+        <button class="icon-btn mobile-btn" id="mobileBtn" title="Abrir menu">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="inicio">
+      <div class="container hero-grid">
+        <div class="hero-content reveal">
+          <span class="pill">👑 Criação digital premium por Andrey Dourado</span>
+          <h1>O futuro visual do seu negócio começa com a <span class="gradient-text">Dourify Studio</span>.</h1>
+          <p>
+            Sites premium, identidade visual, cardápios online, bots e automações para negócios que querem parecer profissionais,
+            vender mais e atender melhor. Design, tecnologia e resultado em uma marca só.
+          </p>
+
+          <div class="hero-actions">
+            <a href="https://wa.me/5594992467916?text=Ol%C3%A1%2C%20Andrey%21%20Quero%20um%20or%C3%A7amento%20para%20um%20projeto%20digital." target="_blank" class="btn whatsapp">Pedir orçamento</a>
+            <a href="#portfolio" class="btn secondary">Ver projetos premium</a>
+          </div>
+
+          <div class="hero-proof">
+            <div class="proof-card">
+              <strong class="counter" data-target="6">0</strong>
+              <span>serviços digitais principais</span>
+            </div>
+            <div class="proof-card">
+              <strong class="counter" data-target="24">0</strong>
+              <span>horas para iniciar um projeto</span>
+            </div>
+            <div class="proof-card">
+              <strong class="counter" data-target="100">0</strong>
+              <span>% visual premium e responsivo</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-visual reveal">
+          <div class="premium-logo-stage">
+            <svg class="big-logo" viewBox="0 0 100 100" aria-label="Logo Dourify">
+              <defs>
+                <linearGradient id="bigGold" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#FFD166" />
+                  <stop offset="50%" stop-color="#FFB703" />
+                  <stop offset="100%" stop-color="#00E7FF" />
+                </linearGradient>
+              </defs>
+              <path d="M16 10H50C74 10 91 27 91 50C91 73 74 90 50 90H16V10Z" fill="none" stroke="url(#bigGold)" stroke-width="9" stroke-linejoin="round" />
+              <path d="M38 29H52C64 29 72 38 72 50C72 62 64 71 52 71H38V29Z" fill="url(#bigGold)" />
+              <path d="M18 82L82 18" stroke="#F8F7FF" stroke-width="7" stroke-linecap="round" opacity=".9" />
+            </svg>
+          </div>
+
+          <div class="floating-card float-one">
+            <h3>🌐 Sites que impressionam</h3>
+            <p>Landing pages, portfólios, páginas de venda e sites institucionais.</p>
+          </div>
+          <div class="floating-card float-two">
+            <h3>🤖 Automações inteligentes</h3>
+            <p>Bots para atendimento, respostas rápidas, funis e captação de leads.</p>
+          </div>
+          <div class="floating-card float-three">
+            <h3>🎨 Branding premium</h3>
+            <p>Logo, cores, fontes, artes e identidade visual memorável.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="marca">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="pill">💎 Identidade visual completa</span>
+          <h2>Uma marca com cara de startup internacional</h2>
+          <p>A Dourify Studio foi criada para transmitir luxo moderno, tecnologia, criatividade, confiança e presença digital forte.</p>
+        </div>
+
+        <div class="brand-grid">
+          <article class="glass-card reveal">
+            <h3>Dourify Studio</h3>
+            <p>
+              O nome combina a força de “Dourado” com uma sonoridade moderna de startup. Ele lembra marcas digitais fortes,
+              fáceis de memorizar e com potencial para crescer em várias áreas: sites, bots, branding, automações e produtos digitais.
+            </p>
+            <p>
+              A identidade visual usa preto profundo, dourado premium, azul neon, roxo futurista e branco gelo para criar um visual elegante,
+              tecnológico e memorável.
+            </p>
+            <a class="btn secondary" href="https://instagram.com/dourify_studio" target="_blank">Instagram @dourify_studio</a>
+
+            <div class="palette">
+              <div class="color-dot" style="background:#060711" title="#060711"></div>
+              <div class="color-dot" style="background:#101326" title="#101326"></div>
+              <div class="color-dot" style="background:#FFD166" title="#FFD166"></div>
+              <div class="color-dot" style="background:#00E7FF" title="#00E7FF"></div>
+              <div class="color-dot" style="background:#7C3CFF" title="#7C3CFF"></div>
+              <div class="color-dot" style="background:#FF4DA6" title="#FF4DA6"></div>
+            </div>
+          </article>
+
+          <div class="brand-board reveal">
+            <div class="brand-row">
+              <div class="asset-card"><span>Nome oficial</span><strong>Dourify Studio</strong></div>
+              <div class="asset-card"><span>Responsável</span><strong>Andrey Dourado</strong></div>
+            </div>
+            <div class="brand-row">
+              <div class="asset-card"><span>WhatsApp</span><strong>(94) 99246-7916</strong></div>
+              <div class="asset-card"><span>Instagram</span><strong>@dourify_studio</strong></div>
+            </div>
+            <div class="asset-card"><span>Slogan principal</span><strong>Transformando negócios em presença digital.</strong></div>
+            <div class="asset-card"><span>Posicionamento</span><strong>Criação digital premium para marcas modernas.</strong></div>
+            <div class="asset-card"><span>Bio profissional</span><strong>⚡ Sites • Bots • Branding<br>🎨 Identidade Visual Premium<br>📲 Orçamentos no WhatsApp</strong></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="servicos">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="pill">⚡ Serviços premium</span>
+          <h2>Design, tecnologia e estratégia em uma entrega completa</h2>
+          <p>Serviços pensados para restaurantes, clínicas, lojas, salões, deliverys, profissionais autônomos e pequenos negócios.</p>
+        </div>
+
+        <div class="services-grid">
+          <article class="service-card reveal">
+            <div class="service-icon">🌐</div>
+            <h3>Sites Premium</h3>
+            <p>Sites modernos, rápidos e responsivos para marcas que querem causar uma primeira impressão forte.</p>
+            <ul class="check-list"><li>Landing pages</li><li>Sites institucionais</li><li>Páginas de venda</li><li>Portfólios profissionais</li></ul>
+          </article>
+
+          <article class="service-card reveal">
+            <div class="service-icon">🎨</div>
+            <h3>Identidade Visual</h3>
+            <p>Logo, cores, fontes e direção visual para transformar negócios comuns em marcas memoráveis.</p>
+            <ul class="check-list"><li>Logo principal</li><li>Paleta de cores</li><li>Tipografia</li><li>Artes para redes sociais</li></ul>
+          </article>
+
+          <article class="service-card reveal">
+            <div class="service-icon">📲</div>
+            <h3>Cardápio Online</h3>
+            <p>Menu digital com visual bonito, QR Code, categorias, fotos, preços e pedido direto no WhatsApp.</p>
+            <ul class="check-list"><li>QR Code</li><li>Produtos organizados</li><li>Botão de pedido</li><li>Visual personalizado</li></ul>
+          </article>
+
+          <article class="service-card reveal">
+            <div class="service-icon">🤖</div>
+            <h3>Bots e Automações</h3>
+            <p>Atendimento automático para responder rápido, captar clientes, enviar preços e organizar mensagens.</p>
+            <ul class="check-list"><li>Instagram</li><li>WhatsApp</li><li>Funil automático</li><li>IA para atendimento</li></ul>
+          </article>
+
+          <article class="service-card reveal">
+            <div class="service-icon">🛒</div>
+            <h3>Catálogos Digitais</h3>
+            <p>Vitrine online para produtos e serviços, com fotos, descrições, preços e link para compra.</p>
+            <ul class="check-list"><li>Produtos</li><li>Ofertas</li><li>Contato rápido</li><li>Link compartilhável</li></ul>
+          </article>
+
+          <article class="service-card reveal">
+            <div class="service-icon">📈</div>
+            <h3>Consultoria Digital</h3>
+            <p>Estratégia para melhorar presença online, Instagram, visual, atendimento e conversão.</p>
+            <ul class="check-list"><li>Análise do negócio</li><li>Plano de ação</li><li>Melhoria de perfil</li><li>Estratégia digital</li></ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="apresentacao">
+      <div class="container">
+        <div class="commercial-banner reveal">
+          <div>
+            <span class="pill">📄 Apresentação comercial</span>
+            <h2>A Dourify não vende apenas sites. Ela vende presença, autoridade e resultado.</h2>
+            <p>
+              A proposta comercial da Dourify é transformar negócios comuns em marcas digitais profissionais,
+              com visual premium, atendimento moderno e soluções que facilitam vendas.
+            </p>
+            <a href="#contato" class="btn">Solicitar proposta</a>
+          </div>
+          <div class="banner-list">
+            <div class="banner-item">👑 Design premium para gerar confiança imediata.</div>
+            <div class="banner-item">⚡ Sites responsivos para celular, tablet e computador.</div>
+            <div class="banner-item">🤖 Bots para reduzir tempo de atendimento.</div>
+            <div class="banner-item">🎨 Identidade visual para destacar a marca.</div>
+            <div class="banner-item">📲 Links, QR Codes e WhatsApp para converter clientes.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="portfolio">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="pill">🖼️ Portfólio premium</span>
+          <h2>Projetos modelo para mostrar autoridade antes mesmo dos primeiros clientes </h2>
+          <p>Exemplos de modelos, logo serão substituídos por trabalhos reais.</p>
+        </div>
+
+        <div class="portfolio-filter reveal">
+          <button class="filter-btn active" data-filter="all">Todos</button>
+          <button class="filter-btn" data-filter="site">Sites</button>
+          <button class="filter-btn" data-filter="cardapio">Cardápios</button>
+          <button class="filter-btn" data-filter="bot">Bots</button>
+          <button class="filter-btn" data-filter="marca">Branding</button>
+        </div>
+
+        <div class="portfolio-grid">
+          <a href="https://analiaeventos.com.br" target="_blank">
+
+<article class="portfolio-card reveal" data-category="site">
+
+  <div class="portfolio-img"
+  style="background-image:url('./img/analiaeventos.png')">
+
+    <span class="portfolio-tag">
+      Evento Premium
+    </span>
+
+  </div>
+
+  <div class="portfolio-body">
+
+    <h3>Analia Eventos</h3>
+
+    <p>
+      Site profissional desenvolvido para divulgação de eventos, presença digital e atendimento online com visual moderno e elegante.
+    </p>
+
+    <div class="tags">
+      <span>HTML</span>
+      <span>Responsivo</span>
+      <span>Eventos</span>
+      <span>Premium</span>
+    </div>
+
+    <br>
+
+    <button class="btn">
+      Ver Projeto
+    </button>
+
+  </div>
+
+</article>
+
+</a>
+          <article class="portfolio-card reveal" data-category="site">
+            <div class="portfolio-img" style="background-image:url('https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1000&q=80')"><span class="portfolio-tag">Site Premium</span></div>
+            <div class="portfolio-body"><h3>Clínica Aurea</h3><p>Site elegante para clínica com serviços, equipe, agendamento e WhatsApp.</p><div class="tags"><span>Saúde</span><span>Landing Page</span><span>Premium</span></div></div>
+          </article>
+          <article class="portfolio-card reveal" data-category="cardapio">
+            <div class="portfolio-img" style="background-image:url('https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=1000&q=80')"><span class="portfolio-tag">Cardápio</span></div>
+            <div class="portfolio-body"><h3>Burger Gold</h3><p>Cardápio online com combos, fotos, preços e pedido pelo WhatsApp.</p><div class="tags"><span>Delivery</span><span>QR Code</span><span>Menu</span></div></div>
+          </article>
+          <article class="portfolio-card reveal" data-category="bot">
+            <div class="portfolio-img" style="background-image:url('https://images.unsplash.com/photo-1531746790731-6c087fecd65a?auto=format&fit=crop&w=1000&q=80')"><span class="portfolio-tag">Bot</span></div>
+            <div class="portfolio-body"><h3>Atendimento Smart</h3><p>Bot para dúvidas, preços, horários, coleta de nome e encaminhamento.</p><div class="tags"><span>Automação</span><span>Instagram</span><span>Leads</span></div></div>
+          </article>
+          <article class="portfolio-card reveal" data-category="marca">
+            <div class="portfolio-img" style="background-image:url('https://images.unsplash.com/photo-1561070791-2526d30994b5?auto=format&fit=crop&w=1000&q=80')"><span class="portfolio-tag">Branding</span></div>
+            <div class="portfolio-body"><h3>Belle Prime</h3><p>Identidade visual para salão com logo, paleta, fontes e artes sociais.</p><div class="tags"><span>Logo</span><span>Beleza</span><span>Social</span></div></div>
+          </article>
+          <article class="portfolio-card reveal" data-category="site">
+            <div class="portfolio-img" style="background-image:url('https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=1000&q=80')"><span class="portfolio-tag">Catálogo</span></div>
+            <div class="portfolio-body"><h3>Tech Store</h3><p>Vitrine online para loja com produtos, ofertas e contato rápido.</p><div class="tags"><span>Loja</span><span>Catálogo</span><span>Mobile</span></div></div>
+          </article>
+          <article class="portfolio-card reveal" data-category="bot">
+            <div class="portfolio-img" style="background-image:url('https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1000&q=80')"><span class="portfolio-tag">Funil</span></div>
+            <div class="portfolio-body"><h3>Curso Pro</h3><p>Automação para captar interessados e enviar informações de matrícula.</p><div class="tags"><span>Educação</span><span>Funil</span><span>Vendas</span></div></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="processo">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="pill">🧭 Processo profissional</span>
+          <h2>Da ideia à entrega com clareza e organização</h2>
+          <p>Um processo simples, visual e confiável para o cliente entender exatamente como o projeto será criado.</p>
+        </div>
+
+        <div class="process-grid">
+          <article class="step-card reveal"><div class="step-number">01</div><h3>Briefing</h3><p>Entendemos o negócio, objetivo, público, referências, prazo e orçamento.</p></article>
+          <article class="step-card reveal"><div class="step-number">02</div><h3>Estratégia</h3><p>Definimos páginas, visual, textos, funcionalidades e melhor formato.</p></article>
+          <article class="step-card reveal"><div class="step-number">03</div><h3>Design</h3><p>Criamos a aparência premium com cores, layout, identidade e experiência.</p></article>
+          <article class="step-card reveal"><div class="step-number">04</div><h3>Desenvolvimento</h3><p>Montamos site, cardápio, bot, catálogo ou automação com capricho.</p></article>
+          <article class="step-card reveal"><div class="step-number">05</div><h3>Entrega</h3><p>Finalizamos, orientamos o uso e oferecemos manutenção opcional.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="planos">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="pill">💰 Pacotes premium</span>
+          <h2>Planos prontos para vender com mais autoridade</h2>
+          <p>Valores sugeridos para posicionamento inicial. Você pode ajustar conforme complexidade e experiência.</p>
+        </div>
+
+        <div class="pricing-grid">
+          <article class="price-card reveal">
+            <h3>Start Dourify</h3>
+            <p>Para negócios que precisam começar com presença digital.</p>
+            <div class="price">R$ 350<small> inicial</small></div>
+            <ul><li>Landing page simples</li><li>Design responsivo</li><li>Botão para WhatsApp</li><li>Até 4 seções</li><li>Entrega objetiva</li></ul>
+            <a class="btn secondary" href="https://wa.me/5594992467916?text=Ol%C3%A1%2C%20Andrey%21%20Tenho%20interesse%20no%20Start%20Dourify." target="_blank">Quero começar</a>
+          </article>
+          <article class="price-card featured reveal">
+            <span class="badge">POPULAR</span>
+            <h3>Gold Business</h3>
+            <p>Para negócios que querem site, visual e divulgação profissional.</p>
+            <div class="price">R$ 680<small> inicial</small></div>
+            <ul><li>Site completo até 6 seções</li><li>Identidade visual básica</li><li>Cardápio ou catálogo simples</li><li>WhatsApp e Instagram</li><li>Textos comerciais</li><li>Suporte inicial</li></ul>
+            <a class="btn" href="https://wa.me/5594992467916?text=Ol%C3%A1%2C%20Andrey%21%20Tenho%20interesse%20no%20Gold%20Business." target="_blank">Escolher Gold</a>
+          </article>
+          <article class="price-card reveal">
+            <h3>Automation Pro</h3>
+            <p>Para empresas que querem atendimento automático e funil.</p>
+            <div class="price">R$ 900<small> inicial</small></div>
+            <ul><li>Bot de atendimento</li><li>Fluxo de perguntas frequentes</li><li>Captação de leads</li><li>Integração WhatsApp</li><li>Treinamento básico</li></ul>
+            <a class="btn secondary" href="https://wa.me/5594992467916?text=Ol%C3%A1%2C%20Andrey%21%20Tenho%20interesse%20em%20bots%20e%20automa%C3%A7%C3%B5es." target="_blank">Automatizar</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="assets">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="pill">🎴 Materiais digitais</span>
+          <h2>Cartão digital, banner e apresentação comercial no próprio site</h2>
+          <p>Esses blocos mostram como a Dourify pode aparecer em materiais de divulgação.</p>
+        </div>
+
+        <div class="digital-assets">
+          <article class="asset-preview reveal">
+            <h3>Cartão Digital</h3>
+            <p>Modelo premium para enviar no WhatsApp ou usar como referência visual.</p>
+            <div class="business-card-preview">
+              <strong>DOURIFY STUDIO</strong>
+              <span>Andrey Dourado</span>
+              <span>Founder & Creative Developer</span>
+              <span>📲 (94) 99246-7916</span>
+              <span>📸 @dourify_studio</span>
+            </div>
+          </article>
+
+          <article class="asset-preview reveal">
+            <h3>Apresentação</h3>
+            <p>Estrutura comercial para explicar serviços e fechar clientes.</p>
+            <div class="presentation-slide">
+              <h4>DOURIFY STUDIO</h4>
+              <p>Sites • Branding • Bots • Cardápios Online</p>
+              <p>Criação digital premium para marcas modernas.</p>
+            </div>
+          </article>
+
+          <article class="asset-preview reveal">
+            <h3>Banner Instagram</h3>
+            <p>Visual para destacar a marca no perfil e atrair clientes.</p>
+            <div class="insta-banner">
+              <h4>DOURIFY STUDIO</h4>
+              <p>Transformando negócios em presença digital.</p>
+              <p>🌐 Sites | 🤖 Bots | 🎨 Branding</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="depoimentos">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="pill">⭐ Prova social modelo</span>
+          <h2>Depoimentos de clientes</h2>
+          <p>Avaliação de clientes satisfeitos</p>
+        </div>
+
+        <div class="testimonials-grid">
+          <article class="testimonial-card reveal"><div class="stars">★★★★★</div><p>“Meu cardápio online ficou profissional e agora consigo enviar o link direto para os clientes.”</p><div class="client"><div class="client-avatar">🍔</div><div><strong>Delivery local</strong><span>Cardápio online</span></div></div></article>
+          <article class="testimonial-card reveal"><div class="stars">★★★★★</div><p>“O site deixou minha marca com aparência muito mais séria e fácil de apresentar.”</p><div class="client"><div class="client-avatar">🪑</div><div><strong>Analia Eventos</strong><span>Site premium</span></div></div></article>
+          <article class="testimonial-card reveal"><div class="stars">★★★★★</div><p>“O bot ajudou a responder dúvidas repetidas e organizar melhor os interessados.”</p><div class="client"><div class="client-avatar">🤖</div><div><strong>Loja online</strong><span>Automação</span></div></div></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="faq">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="pill">❓ FAQ</span>
+          <h2>Perguntas frequentes</h2>
+          <p>Respostas rápidas para quebrar dúvidas e aproximar o cliente do orçamento.</p>
+        </div>
+
+        <div class="faq-list">
+          <div class="faq-item reveal"><button class="faq-question">Quanto tempo demora para criar um site? <span>+</span></button><div class="faq-answer"><p>Depende do tamanho. Uma landing page simples pode ser iniciada rapidamente; projetos maiores precisam de planejamento, textos, imagens e revisões.</p></div></div>
+          <div class="faq-item reveal"><button class="faq-question">O cardápio online funciona com QR Code? <span>+</span></button><div class="faq-answer"><p>Sim. O cardápio pode ser acessado por link e QR Code, ideal para mesa, balcão, Instagram, WhatsApp e delivery.</p></div></div>
+          <div class="faq-item reveal"><button class="faq-question">O bot substitui totalmente uma pessoa? <span>+</span></button><div class="faq-answer"><p>O bot ajuda a responder dúvidas comuns e organizar o atendimento. Em casos importantes, ele pode encaminhar para uma pessoa real.</p></div></div>
+          <div class="faq-item reveal"><button class="faq-question">Posso contratar apenas identidade visual? <span>+</span></button><div class="faq-answer"><p>Sim. Você pode contratar apenas identidade visual, apenas site, apenas cardápio online, apenas bot ou um pacote completo.</p></div></div>
+          <div class="faq-item reveal"><button class="faq-question">O orçamento é grátis? <span>+</span></button><div class="faq-answer"><p>Sim. Basta chamar no WhatsApp, explicar o projeto e receber uma ideia inicial de prazo e valor.</p></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contato">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="pill">📞 Contato</span>
+          <h2>Fale com Andrey Dourado e leve sua marca para o próximo nível</h2>
+          <p>O formulário abre uma mensagem pronta no WhatsApp com as informações do orçamento.</p>
+        </div>
+
+        <div class="contact-grid">
+          <div class="contact-card reveal">
+            <h3>Atendimento direto</h3>
+            <p>Conte o que você precisa: site, identidade visual, cardápio online, catálogo, bot, automação ou pacote completo.</p>
+            <a href="https://wa.me/5594992467916?text=Ol%C3%A1%2C%20Andrey%21%20Quero%20um%20or%C3%A7amento%20com%20a%20Dourify%20Studio." target="_blank" class="btn whatsapp">Chamar no WhatsApp</a>
+            <div class="contact-list">
+              <a href="https://wa.me/5594992467916" target="_blank">📲 WhatsApp: (94) 99246-7916</a>
+              <a href="https://instagram.com/dourify_studio" target="_blank">📸 Instagram: @dourify_studio</a>
+              <div>👤 Responsável: Andrey Dourado</div>
+              <div>🌍 Atendimento online para todo o Brasil</div>
+            </div>
+          </div>
+
+          <div class="contact-card reveal">
+            <form id="contactForm">
+              <div class="form-row">
+                <input type="text" id="nome" placeholder="Seu nome" required />
+                <input type="tel" id="telefone" placeholder="Seu WhatsApp" required />
+              </div>
+              <div class="form-row">
+                <input type="email" id="email" placeholder="Seu email" required />
+                <select id="servico" required>
+                  <option value="">Serviço desejado</option>
+                  <option>Criação de site</option>
+                  <option>Identidade visual</option>
+                  <option>Cardápio online</option>
+                  <option>Bot ou automação</option>
+                  <option>Catálogo digital</option>
+                  <option>Pacote completo</option>
+                </select>
+              </div>
+              <select id="orcamento" required>
+                <option value="">Faixa de orçamento</option>
+                <option>Até R$ 500</option>
+                <option>R$ 500 a R$ 1.000</option>
+                <option>R$ 1.000 a R$ 2.000</option>
+                <option>Acima de R$ 2.000</option>
+                <option>Ainda não sei</option>
+              </select>
+              <textarea id="mensagem" placeholder="Conte sobre o projeto: tipo de negócio, objetivo, prazo e referências"></textarea>
+              <button class="btn" type="submit">Enviar orçamento pelo WhatsApp</button>
+              <div class="success-message" id="successMessage">Mensagem preparada! O WhatsApp será aberto com os dados do orçamento.</div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <a class="whatsapp-float" href="https://wa.me/5594992467916?text=Ol%C3%A1%2C%20Andrey%21%20Vim%20pelo%20site%20da%20Dourify%20Studio." target="_blank" title="Chamar no WhatsApp">☘</a>
+
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <h3>Dourify Studio</h3>
+          <p>Criação digital premium para marcas modernas. Sites, identidade visual, cardápios online, bots e automações por Andrey Dourado.</p>
+        </div>
+        <div>
+          <h4>Serviços</h4>
+          <ul><li><a href="#servicos">Sites premium</a></li><li><a href="#servicos">Identidade visual</a></li><li><a href="#servicos">Bots</a></li><li><a href="#servicos">Cardápios online</a></li></ul>
+        </div>
+        <div>
+          <h4>Marca</h4>
+          <ul><li><a href="#marca">Identidade</a></li><li><a href="#portfolio">Portfólio</a></li><li><a href="#processo">Processo</a></li><li><a href="#planos">Planos</a></li></ul>
+        </div>
+        <div>
+          <h4>Contato</h4>
+          <ul><li><a href="https://wa.me/5594992467916" target="_blank">WhatsApp</a></li><li><a href="https://instagram.com/dourify_studio" target="_blank">Instagram</a></li><li><a href="#contato">Orçamento</a></li><li><a href="#faq">Dúvidas</a></li></ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 Dourify Studio. Todos os direitos reservados.</span>
+        <span>Feito para Andrey Dourado • @dourify_studio</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const menu = document.getElementById('menu');
+    const mobileBtn = document.getElementById('mobileBtn');
+    const themeBtn = document.getElementById('themeBtn');
+    const cursorGlow = document.getElementById('cursorGlow');
+
+    mobileBtn.addEventListener('click', () => {
+      menu.classList.toggle('active');
+      mobileBtn.textContent = menu.classList.contains('active') ? '✕' : '☰';
+    });
+
+    document.querySelectorAll('.menu a').forEach(link => {
+      link.addEventListener('click', () => {
+        menu.classList.remove('active');
+        mobileBtn.textContent = '☰';
+      });
+    });
+
+    themeBtn.addEventListener('click', () => {
+      document.body.classList.toggle('light');
+      themeBtn.textContent = document.body.classList.contains('light') ? '☀️' : '🌙';
+    });
+
+    document.addEventListener('mousemove', event => {
+      cursorGlow.style.left = event.clientX + 'px';
+      cursorGlow.style.top = event.clientY + 'px';
+    });
+
+    const revealElements = document.querySelectorAll('.reveal');
+    const revealObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.12 });
+
+    revealElements.forEach(element => revealObserver.observe(element));
+
+    const counters = document.querySelectorAll('.counter');
+    let countersStarted = false;
+
+    function startCounters() {
+      if (countersStarted) return;
+      countersStarted = true;
+
+      counters.forEach(counter => {
+        const target = Number(counter.dataset.target);
+        let current = 0;
+        const increment = Math.max(1, Math.ceil(target / 85));
+
+        const timer = setInterval(() => {
+          current += increment;
+          if (current >= target) {
+            current = target;
+            clearInterval(timer);
+          }
+          counter.textContent = current.toLocaleString('pt-BR');
+        }, 20);
+      });
+    }
+
+    const proofSection = document.querySelector('.hero-proof');
+    const counterObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) startCounters();
+      });
+    }, { threshold: 0.5 });
+
+    counterObserver.observe(proofSection);
+
+    document.querySelectorAll('.faq-question').forEach(button => {
+      button.addEventListener('click', () => {
+        const item = button.parentElement;
+        const symbol = button.querySelector('span');
+        item.classList.toggle('active');
+        symbol.textContent = item.classList.contains('active') ? '−' : '+';
+      });
+    });
+
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const portfolioCards = document.querySelectorAll('.portfolio-card');
+
+    filterButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        filterButtons.forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+
+        const filter = button.dataset.filter;
+
+        portfolioCards.forEach(card => {
+          if (filter === 'all' || card.dataset.category === filter) {
+            card.style.display = 'block';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      });
+    });
+
+    document.getElementById('contactForm').addEventListener('submit', event => {
+      event.preventDefault();
+
+      const nome = document.getElementById('nome').value;
+      const telefone = document.getElementById('telefone').value;
+      const email = document.getElementById('email').value;
+      const servico = document.getElementById('servico').value;
+      const orcamento = document.getElementById('orcamento').value;
+      const mensagem = document.getElementById('mensagem').value;
+
+      const textoWhatsApp = `Olá, Andrey! Vim pelo site da Dourify Studio. Meu nome é ${nome}. Quero orçamento para: ${servico}. Meu WhatsApp é ${telefone}. Meu email é ${email}. Faixa de orçamento: ${orcamento}. Detalhes do projeto: ${mensagem}`;
+      const numeroWhatsApp = '5594992467916';
+      const link = `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(textoWhatsApp)}`;
+
+      document.getElementById('successMessage').style.display = 'block';
+
+      setTimeout(() => {
+        window.open(link, '_blank');
+      }, 700);
+
+      event.target.reset();
+
+      setTimeout(() => {
+        document.getElementById('successMessage').style.display = 'none';
+      }, 5000);
+    });
+  </script>
+</body>
+</html>
