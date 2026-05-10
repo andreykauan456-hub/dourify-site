@@ -1388,7 +1388,47 @@
       .float-two { right: 0; bottom: 62px; }
       .float-three { display: none; }
       .commercial-banner, .glass-card, .contact-card { padding: 26px; }
-    }
+    }@media (max-width: 768px) {
+
+  .premium-logo-stage,
+  .floating-card,
+  .big-logo {
+    will-change: transform;
+    transform: translateZ(0);
+  }
+
+  .premium-logo-stage {
+    animation-duration: 8s;
+    box-shadow: 0 0 45px rgba(255, 209, 102, 0.22);
+  }
+
+  .floating-card {
+    animation-duration: 7s;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+  }
+
+  .orb-bg {
+    opacity: 0.18;
+    filter: blur(14px);
+    animation-duration: 14s;
+  }
+
+  .reveal {
+    filter: none;
+    transition: opacity .5s ease, transform .5s ease;
+  }
+
+  .service-card,
+  .portfolio-card,
+  .price-card,
+  .contact-card {
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    box-shadow: 0 14px 35px rgba(0,0,0,.25);
+  }
+
+}
   </style>
 </head>
 
