@@ -1389,7 +1389,10 @@
       .float-three { display: none; }
       .commercial-banner, .glass-card, .contact-card { padding: 26px; }
     }@media (max-width: 768px) {
-
+section {
+  content-visibility: auto;
+  contain-intrinsic-size: 800px;
+}
   .premium-logo-stage,
   .floating-card,
   .big-logo {
@@ -1428,8 +1431,35 @@
     box-shadow: 0 14px 35px rgba(0,0,0,.25);
   }
 
+}/* OTIMIZAÇÃO MOBILE */
+@media (max-width: 768px) {
+  .proof-card,
+  .glass-card,
+  .service-card,
+  .portfolio-card,
+  .price-card,
+  .asset-preview,
+  .contact-card,
+  .faq-item,
+  .commercial-banner {
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
+  section {
+    content-visibility: auto;
+    contain-intrinsic-size: 700px;
+  }
 }
   </style>
+  <script>
+document.addEventListener('DOMContentLoaded', function () {
+  document.querySelectorAll('img').forEach(function (img) {
+    img.setAttribute('loading', 'lazy');
+    img.setAttribute('decoding', 'async');
+  });
+});
+</script>
 </head>
 
 <body>
@@ -1724,7 +1754,7 @@
 </article>
 
 </a>
-<a href="https://sistersboutiqueonline.netlify.app/" target="_blank">
+<a href="https://sistersboutique.online" target="_blank">
 
 <article class="portfolio-card reveal" data-category="site">
 
@@ -1765,27 +1795,27 @@
 
 </a>
           <article class="portfolio-card reveal" data-category="site">
-            <div class="portfolio-img" style="background-image:url('https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1000&q=80')"><span class="portfolio-tag">Site Premium</span></div>
+            <div class="portfolio-img" style="background-image:url('https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=w=700&q=70')"><span class="portfolio-tag">Site Premium</span></div>
             <div class="portfolio-body"><h3>Clínica Aurea</h3><p>Site elegante para clínica com serviços, equipe, agendamento e WhatsApp.</p><div class="tags"><span>Saúde</span><span>Landing Page</span><span>Premium</span></div></div>
           </article>
           <article class="portfolio-card reveal" data-category="cardapio">
-            <div class="portfolio-img" style="background-image:url('https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=1000&q=80')"><span class="portfolio-tag">Cardápio</span></div>
+            <div class="portfolio-img" style="background-image:url('https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=700&q=70')"><span class="portfolio-tag">Cardápio</span></div>
             <div class="portfolio-body"><h3>Burger Gold</h3><p>Cardápio online com combos, fotos, preços e pedido pelo WhatsApp.</p><div class="tags"><span>Delivery</span><span>QR Code</span><span>Menu</span></div></div>
           </article>
           <article class="portfolio-card reveal" data-category="bot">
-            <div class="portfolio-img" style="background-image:url('https://images.unsplash.com/photo-1531746790731-6c087fecd65a?auto=format&fit=crop&w=1000&q=80')"><span class="portfolio-tag">Bot</span></div>
+            <div class="portfolio-img" style="background-image:url('https://images.unsplash.com/photo-1531746790731-6c087fecd65a?auto=format&fit=crop&w=700&q=70')"><span class="portfolio-tag">Bot</span></div>
             <div class="portfolio-body"><h3>Atendimento Smart</h3><p>Bot para dúvidas, preços, horários, coleta de nome e encaminhamento.</p><div class="tags"><span>Automação</span><span>Instagram</span><span>Leads</span></div></div>
           </article>
           <article class="portfolio-card reveal" data-category="marca">
-            <div class="portfolio-img" style="background-image:url('https://images.unsplash.com/photo-1561070791-2526d30994b5?auto=format&fit=crop&w=1000&q=80')"><span class="portfolio-tag">Branding</span></div>
+            <div class="portfolio-img" style="background-image:url('https://images.unsplash.com/photo-1561070791-2526d30994b5?auto=format&fit=crop&w=700&q=70')"><span class="portfolio-tag">Branding</span></div>
             <div class="portfolio-body"><h3>Belle Prime</h3><p>Identidade visual para salão com logo, paleta, fontes e artes sociais.</p><div class="tags"><span>Logo</span><span>Beleza</span><span>Social</span></div></div>
           </article>
           <article class="portfolio-card reveal" data-category="site">
-            <div class="portfolio-img" style="background-image:url('https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=1000&q=80')"><span class="portfolio-tag">Catálogo</span></div>
+            <div class="portfolio-img" style="background-image:url('https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=700&q=70')"><span class="portfolio-tag">Catálogo</span></div>
             <div class="portfolio-body"><h3>Tech Store</h3><p>Vitrine online para loja com produtos, ofertas e contato rápido.</p><div class="tags"><span>Loja</span><span>Catálogo</span><span>Mobile</span></div></div>
           </article>
           <article class="portfolio-card reveal" data-category="bot">
-            <div class="portfolio-img" style="background-image:url('https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1000&q=80')"><span class="portfolio-tag">Funil</span></div>
+            <div class="portfolio-img" style="background-image:url('https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=700&q=70')"><span class="portfolio-tag">Funil</span></div>
             <div class="portfolio-body"><h3>Curso Pro</h3><p>Automação para captar interessados e enviar informações de matrícula.</p><div class="tags"><span>Educação</span><span>Funil</span><span>Vendas</span></div></div>
           </article>
         </div>
@@ -2032,10 +2062,14 @@
       themeBtn.textContent = document.body.classList.contains('light') ? '☀️' : '🌙';
     });
 
-    document.addEventListener('mousemove', event => {
-      cursorGlow.style.left = event.clientX + 'px';
-      cursorGlow.style.top = event.clientY + 'px';
-    });
+    if (window.matchMedia('(pointer: fine)').matches) {
+  document.addEventListener('mousemove', event => {
+    cursorGlow.style.left = event.clientX + 'px';
+    cursorGlow.style.top = event.clientY + 'px';
+  }, { passive: true });
+} else {
+  cursorGlow.style.display = 'none';
+}
 
     const revealElements = document.querySelectorAll('.reveal');
     const revealObserver = new IntersectionObserver(entries => {
